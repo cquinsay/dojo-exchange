@@ -1,0 +1,9 @@
+* {
+    margin:0;
+    padding: 0;
+}
+body {
+    width: 900px;
+    margin: 15px;
+    background-color: rgb(153, 153, 168);
+}
