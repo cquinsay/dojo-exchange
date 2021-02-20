@@ -28,14 +28,14 @@ def register(request):
             )
             request.session['user_id'] = new_user.id
             request.session['user_name']=f"{new_user.first_name}"
-            return redirect("/main") # never render on a post, always redirect!    
+            return redirect("/dashboard") # never render on a post, always redirect!    
     return redirect('/')
 
 def signin(request):
     return render(request, "login.html")
 
-def main(request):
-    return render(request, "main.html")
+def dashboard(request):
+    return render(request, "dashboard.html")
 
 def login(request):
     errors = User.objects.login_validator(request.POST)
@@ -49,7 +49,7 @@ def login(request):
         request.session['user_id'] = user.id
         request.session['user_name']=f"{user.first_name}"
         
-        return redirect('/main')
+        return redirect('/dashboard')
     return redirect("/signin")
 
 def logout(request):
@@ -58,6 +58,38 @@ def logout(request):
     return redirect('/')
 
 def account(request):
-    return render(request, 'account.html')
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if user:
+            context = {
+                'user': user[0],
+                'items': Item.objects.all(),
 
+            }
+            return render(request, 'account.html', context)
+    return redirect('/')
+    
+
+def add_item(request):
+    errors = Item.objects.item_validator(request.POST)
+
+    if len(errors):
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/account')
+    else:
+        user = User.objects.get(id=request.session['user_id'])
+        request.session['user_id'] = user.id
+        request.session['user_name']=f"{user.first_name}"
+        item = Item.objects.create(
+            item_name=request.POST['item_name'],
+            price=request.POST['price'],
+            condition=request.POST['condition'],
+            category=request.POST['category'],
+            description=request.POST['description'],
+            seller=user
+        )
+        
+        return redirect('/account')
+    return redirect("/")
 

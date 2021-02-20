@@ -61,11 +61,11 @@ class Item(models.Model):
     condition = models.CharField(max_length=25)
     category = models.CharField(max_length=50)
     description = models.TextField()
-    image = models.ImageField(upload_to='images/')
     seller = models.ForeignKey(User, related_name="items", on_delete = models.CASCADE)
     buyer = models.ManyToManyField(User, related_name="item_buyer")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=ItemManager()
+
 
 # Create your models here.
