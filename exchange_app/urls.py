@@ -10,4 +10,7 @@ urlpatterns = [
     path('logout', views.logout),
     path('account', views.account),
     path('add_item', views.add_item),
+    path('items/<int:item_id>/edit_item', views.edit_item),
+    path('items/<int:item_id>/update_item', views.update_item),
+    path('items/<int:item_id>/delete_item', views.delete_item),
 ]

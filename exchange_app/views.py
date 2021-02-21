@@ -35,7 +35,16 @@ def signin(request):
     return render(request, "login.html")
 
 def dashboard(request):
-    return render(request, "dashboard.html")
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if user:
+            context = {
+                'user': user[0],
+                'items': Item.objects.all(),
+
+            }
+            return render(request, 'dashboard.html', context)
+    return redirect('/')
 
 def login(request):
     errors = User.objects.login_validator(request.POST)
@@ -93,3 +102,31 @@ def add_item(request):
         return redirect('/account')
     return redirect("/")
 
+def edit_item(request, item_id):
+    context = {
+        'edit_item': Item.objects.get(id=item_id)
+    }
+
+    return render(request,'edit_item.html', context)
+
+def update_item(request, item_id):
+    if request.method=='POST':
+        errors = Item.objects.update_item_validator(request.POST)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect(f'/items/{item_id}/edit')
+        my_item=Item.objects.get(id=item_id)
+        my_item.item_name=request.POST['new_item_name']
+        my_item.price=request.POST['new_price']
+        my_item.condition=request.POST['new_condition']
+        my_item.category=request.POST['new_category']
+        my_item.description=request.POST['new_description']
+        my_item.save()
+
+    return redirect(f'/account')
+
+def delete_item(request, item_id):
+    item = Item.objects.get(id=item_id)
+    item.delete()
+    return redirect('/account')

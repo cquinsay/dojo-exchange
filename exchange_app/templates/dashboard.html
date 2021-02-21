@@ -14,5 +14,20 @@
         <h2>The Dojo Exchange</h2>
         <nav><a href="">My Cart</a>|<a href="/account">My Account</a>|<a href="/logout">Log Out</a></nav>
     </div>
+    <div class="dashboard_body">
+        {% for item in items %}
+            {% if item.seller.id != request.session.user_id %}
+            <p>{{ item.item_name}}</p>
+            <p>${{ item.price }}</p>
+            <p>{{ item.condition }}</p>
+            <p>{{ item.category }}</p>
+            <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
+                <a href="/items/{{ item.id }}/edit_item">Edit</a>|
+                <a href="/items/{{ item.id }}/delete_item">Delete</a>
+            {% endif %}
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

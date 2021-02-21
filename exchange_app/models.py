@@ -44,6 +44,14 @@ class ItemManager(models.Manager):
         if len(postdata['condition'])<1:
             errors['condition']="You must select a condition!"
         return errors
+    
+    def update_item_validator(self, postdata):
+        errors = {}
+        if len(postdata['new_item_name'])<1:
+            errors['new_item_name']="You must provide an item name!"
+        if len(postdata['new_condition'])<1:
+            errors['new_condition']="You must select a condition!"
+        return errors
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)
