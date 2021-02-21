@@ -8,7 +8,7 @@
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>{{ My Cart }}</title>
+    <title>My Cart</title>
 </head>
 
 <body>
@@ -18,13 +18,17 @@
         <nav><a href="/dashboard">Exchange</a>|<a href="/account">My Account</a>|<a href="/logout">Log Out</a></nav>
     </div>
     <div class="container">
+    {% for item in items %}
+    {% if user in item.buyer.all %}
         <h3>{{ item.item_name }}</h3>
         <p>${{ item.price }}</p>
         <p>{{ item.condition }}</p>
         <p>{{ item.description }}</p>
         <p>Posted on: {{ item.created_at }}</p>
         <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
-        <a href="/items/{{ item.id }}/add_cart" role="button" class="btn btn-primary">Add to Cart</a>
+        <a href="/items/{{ item.id }}/remove" role="button" class="btn btn-primary">Remove from Cart</a>
+    {% endif %}
+    {% endfor %}
     </div>
     
 </body>

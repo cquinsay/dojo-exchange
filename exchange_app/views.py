@@ -141,7 +141,7 @@ def item_info(request, item_id):
 def add_cart(request, item_id):
     user = User.objects.get(id=request.session["user_id"])
     item = Item.objects.get(id=item_id)
-    user.buyer.add(item)
+    user.item_buyer.add(item)
 
     return redirect('/cart')
 
@@ -154,5 +154,12 @@ def cart(request):
                 'items': Item.objects.all(),
 
             }
-            return render(request, 'dashboard.html', context)
+            return render(request, 'cart.html', context)
     return redirect('/')
+
+def remove(request, item_id):
+    user = User.objects.get(id=request.session["user_id"])
+    item = Item.objects.get(id=item_id)
+    user.item_buyer.remove(item)
+
+    return redirect('/cart')

@@ -53,6 +53,13 @@ class ItemManager(models.Manager):
             errors['new_condition']="You must select a condition!"
         return errors
 
+class MessageManager(models.Manager):
+    def message_validator(self, postdata):
+        errors = {}
+        if len(postdata['message'])<1:
+            errors['message']="You must provide a message to send!!"
+        return errors
+
 class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -74,6 +81,13 @@ class Item(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=ItemManager()
+
+class Message(models.Model):
+    message = models.TextField()
+    poster = models.ForeignKey(User, related_name="messages", on_delete = models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects=MessageManager()
 
 
 # Create your models here.
