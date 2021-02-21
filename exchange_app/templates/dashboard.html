@@ -22,8 +22,7 @@
             <p>{{ item.condition }}</p>
             <p>{{ item.category }}</p>
             <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
-                <a href="/items/{{ item.id }}/edit_item">Edit</a>|
-                <a href="/items/{{ item.id }}/delete_item">Delete</a>
+                <a href="/items/{{ item.id }}">Listing Info</a>
             {% endif %}
         {% endfor %}
             </tbody>

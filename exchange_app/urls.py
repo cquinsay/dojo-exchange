@@ -13,4 +13,8 @@ urlpatterns = [
     path('items/<int:item_id>/edit_item', views.edit_item),
     path('items/<int:item_id>/update_item', views.update_item),
     path('items/<int:item_id>/delete_item', views.delete_item),
+    path('items/<int:item_id>', views.item_info),
+    path('items/<int:item_id>/add_cart', views.add_cart),
+    path('cart', views.cart),
+
 ]

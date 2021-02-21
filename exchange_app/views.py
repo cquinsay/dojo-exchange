@@ -130,3 +130,29 @@ def delete_item(request, item_id):
     item = Item.objects.get(id=item_id)
     item.delete()
     return redirect('/account')
+
+def item_info(request, item_id):
+    context = {
+        'user': User.objects.get(id=request.session['user_id']),
+        'item': Item.objects.get(id=item_id)
+    }
+    return render(request, "item.html", context)
+
+def add_cart(request, item_id):
+    user = User.objects.get(id=request.session["user_id"])
+    item = Item.objects.get(id=item_id)
+    user.buyer.add(item)
+
+    return redirect('/cart')
+
+def cart(request):
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if user:
+            context = {
+                'user': user[0],
+                'items': Item.objects.all(),
+
+            }
+            return render(request, 'dashboard.html', context)
+    return redirect('/')
