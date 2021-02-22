@@ -7,3 +7,12 @@ body {
     margin: 15px;
     background-color: rgb(153, 153, 168);
 }
+.header{
+    background-color: aqua;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+#posted_messages {
+    background-color: bisque;
+}

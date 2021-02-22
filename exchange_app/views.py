@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import *
 import bcrypt
+from django.db.models import Sum
 
 def signup(request):
     return render(request, 'signup.html')
@@ -41,6 +42,7 @@ def dashboard(request):
             context = {
                 'user': user[0],
                 'items': Item.objects.all(),
+                'saved_item': User.objects.get(id=request.session['user_id']).saved_item.all()
 
             }
             return render(request, 'dashboard.html', context)
@@ -73,6 +75,8 @@ def account(request):
             context = {
                 'user': user[0],
                 'items': Item.objects.all(),
+                'messages': Message.objects.all(),
+                
 
             }
             return render(request, 'account.html', context)
@@ -134,14 +138,15 @@ def delete_item(request, item_id):
 def item_info(request, item_id):
     context = {
         'user': User.objects.get(id=request.session['user_id']),
-        'item': Item.objects.get(id=item_id)
+        'item': Item.objects.get(id=item_id),
+        
     }
     return render(request, "item.html", context)
 
 def add_cart(request, item_id):
     user = User.objects.get(id=request.session["user_id"])
     item = Item.objects.get(id=item_id)
-    user.item_buyer.add(item)
+    user.saved_item.add(item)
 
     return redirect('/cart')
 
@@ -160,6 +165,27 @@ def cart(request):
 def remove(request, item_id):
     user = User.objects.get(id=request.session["user_id"])
     item = Item.objects.get(id=item_id)
-    user.item_buyer.remove(item)
+    user.saved_item.remove(item)
 
     return redirect('/cart')
+
+def create_message(request, item_id):
+    if request.method == "POST":
+        if 'user_id' in request.session:
+            user = User.objects.get(id=request.session['user_id'])
+            item = Item.objects.get(id=item_id)
+            Message.objects.create(
+                message=request.POST['message'],
+                poster=user
+    
+
+            )
+
+    return redirect(f'/account')
+
+def delete_message(request, message_id):
+        message = Message.objects.get(id=message_id)
+        message.delete()
+        return redirect('/account')
+
+# def purchase()

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,24 +10,29 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>The Dojo Exchange</title>
 </head>
+
 <body>
     <div class="header">
         <h2>The Dojo Exchange</h2>
         <nav><a href="/cart">My Cart</a>|<a href="/account">My Account</a>|<a href="/logout">Log Out</a></nav>
     </div>
     <div class="dashboard_body">
-        {% for item in items %}
-            {% if user not in item.buyer.all %}
-            <p>{{ item.item_name }}</p>
-            <p>${{ item.price }}</p>
-            <p>{{ item.condition }}</p>
-            <p>{{ item.category }}</p>
-            <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
-                <a href="/items/{{ item.id }}">Listing Info</a>
-            {% endif %}
-        {% endfor %}
-            </tbody>
-        </table>
+    {% for item in items %}
+        {% if item not in saved_item %}
+            <div class="listing">
+            <div class="col"><a href="/items/{{ item.id }}">
+                        <h4>{{ item.item_name }}</h4>
+                    </a></div>
+                <div class="col">{{ item.price }}</div>
+                <div class="col">{{ item.condition }}</div>
+                <div class="col">{{ item.category }}</div>
+                <div class="col">
+                    <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
     </div>
 </body>
+
 </html>

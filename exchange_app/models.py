@@ -76,18 +76,25 @@ class Item(models.Model):
     condition = models.CharField(max_length=25)
     category = models.CharField(max_length=50)
     description = models.TextField()
-    seller = models.ForeignKey(User, related_name="items", on_delete = models.CASCADE)
-    buyer = models.ManyToManyField(User, related_name="item_buyer")
+    seller = models.ForeignKey(User, related_name="seller", on_delete = models.CASCADE)
+    saved_item = models.ManyToManyField(User, related_name="saved_item")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=ItemManager()
 
 class Message(models.Model):
     message = models.TextField()
-    poster = models.ForeignKey(User, related_name="messages", on_delete = models.CASCADE)
+    poster = models.ForeignKey(User, related_name="poster", on_delete = models.CASCADE)
+    item_message = models.ManyToManyField(Item, related_name="item_message")
+    sent_message = models.ManyToManyField(User, related_name="sent_message")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=MessageManager()
+
+class Order(models.Model):
+    total_price = models.DecimalField(decimal_places=2, max_digits=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 # Create your models here.
