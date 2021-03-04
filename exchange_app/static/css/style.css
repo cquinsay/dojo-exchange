@@ -1,18 +1,43 @@
 * {
     margin:0;
     padding: 0;
+    /* outline: 1px solid red; */
 }
-body {
-    width: 900px;
-    margin: 15px;
-    background-color: rgb(153, 153, 168);
+body{
+    width: 1200px;
 }
 .header{
-    background-color: aqua;
+    background-color: rgb(191, 167, 201);
+    padding: 5px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
 }
+.items_section{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.add_item {
+    background-color: rgb(191, 167, 201);
+    padding: 5px;
+}
+.listing {
+    display: flexbox;
+    
+    
+}
+.item_container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
 #posted_messages {
-    background-color: bisque;
+    background-color: rgb(191, 167, 201);
+    margin-bottom: 10px;
+}
+.cart-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
 }

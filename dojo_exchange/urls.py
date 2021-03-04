@@ -1,3 +1,4 @@
+
 """dojo_exchange URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -22,4 +23,6 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', include('exchange_app.urls')),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

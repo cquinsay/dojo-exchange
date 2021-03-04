@@ -47,6 +47,9 @@
                         <label for="new_description">Description:</label><textarea class="form-control" rows="3" cols="20"
                             name="new_description">{{edit_item.description}}</textarea>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new_image">Upload Image:</label><input name="new_image" type="file" class="form-control" id="customFile" value="{{item.image.url}}">
+                    </div>
                     <button class="btn btn-primary">Update</button>
                     <a href="/account" role="button" class="btn btn-warning">Cancel</a>
                 </form>

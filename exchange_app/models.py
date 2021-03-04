@@ -76,11 +76,14 @@ class Item(models.Model):
     condition = models.CharField(max_length=25)
     category = models.CharField(max_length=50)
     description = models.TextField()
+    image = models.ImageField(upload_to='images')
     seller = models.ForeignKey(User, related_name="seller", on_delete = models.CASCADE)
     saved_item = models.ManyToManyField(User, related_name="saved_item")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=ItemManager()
+    def __str__(self):
+        return self.item_name
 
 class Message(models.Model):
     message = models.TextField()
@@ -91,10 +94,7 @@ class Message(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects=MessageManager()
 
-class Order(models.Model):
-    total_price = models.DecimalField(decimal_places=2, max_digits=6)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+
 
 
 # Create your models here.

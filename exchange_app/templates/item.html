@@ -14,37 +14,42 @@
 <body>
     <div class="header">
         <h2>The Dojo Exchange</h2>
-        <nav><a href="/dashboard">Exchange</a>|<a href="/cart">My Cart</a>|<a href="/account">My Account</a>|<a href="/logout">Log Out</a></nav>
+        <nav><a href="/dashboard">Exchange</a>|<a href="/cart">My Cart</a>|<a href="/account">My Account</a>|<a
+                href="/logout">Log Out</a></nav>
     </div>
-    <div class="container">
-        <h3>{{ item.item_name }}</h3>
-        <p>${{ item.price }}</p>
-        <p>{{ item.condition }}</p>
-        <p>{{ item.description }}</p>
-        <p>Posted on: {{ item.created_at }}</p>
-        <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
-    
-        {% if item not in user.saved_item.all %}
-        {% if item.seller.id != request.session.user_id %}
-        <a href="/items/{{ item.id }}/add_cart" role="button" class="btn btn-primary">Add to Cart</a>
-        {% endif %}
-        {% endif %}
-    <div class="add_message">
-        {% if item.seller.id != request.session.user_id %}
-        <section>
-            <form action="/message/{{ item.id }}" method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="message">Message {{ item.seller.first_name }} about item:</label><textarea class="form-control" rows="5" cols="30"
-                        name="message"></textarea>
-                </div>
-                <button class="btn btn-primary">Post</button>
-            </form>
-        </section>
-        {% endif %}
-    </div>
-    
-    
+    <div class="item_container">
+        <div class="item_page">
+            <h3>{{ item.item_name }}</h3>
+            <img src="{{item.image.url}}" alt="{{item.item_name}}" style="width:200px">
+            <p>${{ item.price }}</p>
+            <p>{{ item.condition }}</p>
+            <p>{{ item.description }}</p>
+            <p>Posted on: {{ item.created_at }}</p>
+            <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
+
+            {% if item not in user.saved_item.all %}
+            {% if item.seller.id != request.session.user_id %}
+            <a href="/items/{{ item.id }}/add_cart" role="button" class="btn btn-primary">Add to Cart</a>
+            {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="add_message">
+            {% if item.seller.id != request.session.user_id %}
+            <section>
+                <form action="/message/{{ item.id }}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="message">Message {{ item.seller.first_name }} about item:</label><textarea
+                            class="form-control" rows="5" cols="30" name="message"></textarea>
+                    </div>
+                    <button class="btn btn-primary">Post</button>
+                </form>
+            </section>
+            {% endif %}
+        </div>
+
+
 </body>
 
 </html>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import *
 import bcrypt
-from django.db.models import Sum
+
 
 def signup(request):
     return render(request, 'signup.html')
@@ -43,7 +43,6 @@ def dashboard(request):
                 'user': user[0],
                 'items': Item.objects.all(),
                 'saved_item': User.objects.get(id=request.session['user_id']).saved_item.all()
-
             }
             return render(request, 'dashboard.html', context)
     return redirect('/')
@@ -77,7 +76,6 @@ def account(request):
                 'items': Item.objects.all(),
                 'messages': Message.objects.all(),
                 
-
             }
             return render(request, 'account.html', context)
     return redirect('/')
@@ -92,6 +90,7 @@ def add_item(request):
         return redirect('/account')
     else:
         user = User.objects.get(id=request.session['user_id'])
+
         request.session['user_id'] = user.id
         request.session['user_name']=f"{user.first_name}"
         item = Item.objects.create(
@@ -100,6 +99,7 @@ def add_item(request):
             condition=request.POST['condition'],
             category=request.POST['category'],
             description=request.POST['description'],
+            image=request.FILES['image'], 
             seller=user
         )
         
@@ -126,6 +126,7 @@ def update_item(request, item_id):
         my_item.condition=request.POST['new_condition']
         my_item.category=request.POST['new_category']
         my_item.description=request.POST['new_description']
+        my_item.image=request.FILES['new_image']
         my_item.save()
 
     return redirect(f'/account')
@@ -153,6 +154,7 @@ def add_cart(request, item_id):
 def cart(request):
     if 'user_id' in request.session:
         user = User.objects.filter(id=request.session['user_id'])
+
         if user:
             context = {
                 'user': user[0],
@@ -177,15 +179,34 @@ def create_message(request, item_id):
             Message.objects.create(
                 message=request.POST['message'],
                 poster=user
-    
-
             )
-
     return redirect(f'/account')
 
 def delete_message(request, message_id):
-        message = Message.objects.get(id=message_id)
-        message.delete()
-        return redirect('/account')
+    message = Message.objects.get(id=message_id)
+    message.delete()
+    return redirect('/account')
+
+def purchase(request, item_id):
+    item = Item.objects.get(id=item_id)
+    item.delete()
+    return redirect('/complete')
+
+def complete(request):
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+
+        if user:
+            context = {
+                'user': user[0],
+                
+
+            }
+            return render(request, 'complete.html', context)
+    return redirect('/')
+    
+    
+
+
 
 # def purchase()

@@ -17,10 +17,10 @@
         <h1>My Cart</h1>
         <nav><a href="/dashboard">Exchange</a>|<a href="/account">My Account</a>|<a href="/logout">Log Out</a></nav>
     </div>
-    <div class="container">
+    <div class="cart-container">
+        {% for item in items %}
+        {% if user in item.saved_item.all %}
         <div class="cart-items">
-            {% for item in items %}
-            {% if user in item.saved_item.all %}
             <h3>{{ item.item_name }}</h3>
             <p>${{ item.price }}</p>
             <p>{{ item.condition }}</p>
@@ -29,17 +29,15 @@
             <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
             <a href="/items/{{ item.id }}" role="button" class="btn btn-primary">Listing Info</a>
             <a href="/items/{{ item.id }}/remove" role="button" class="btn btn-danger">Remove from Cart</a>
-            {% endif %}
-            {% endfor %}
         </div>
-        <div class="cart-total">
-            <h1>Your Total:</h1>
-            <h2></h2>
-            <!-- <a href="/purchase" role="button" class="btn btn-primary">Purchase</a> -->
-            <a href="/items/{{ item.id }}/remove" role="button" class="btn btn-danger">Remove from Cart</a>
-
+        <div class="total">
+            <h2>Your Total:</h2>
+            <h3>${{ item.price }}</h3>
+            <a href="/purchase/{{ item.id }}" role="button" class="btn btn-warning">Purchase</a>
         </div>
-
+        {% endif %}
+        {% endfor %}
+        
     </div>
 
 </body>
