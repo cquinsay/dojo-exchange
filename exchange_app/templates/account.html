@@ -26,6 +26,7 @@
             <h3>Your Messages:</h3>
             {% if messages %}
             {% for message in messages %}
+            <p><b>About: {{item.item_name}}</b></p>
             <p>{{ message.message }}</p>
             <h6><b>-{{ message.poster.first_name }} {{ message.poster.last_name }}</b> - {{ message.created_at }}</h6>
             {% if message.poster.id == request.session.user_id %}
@@ -88,13 +89,15 @@
                         {% for item in items %}
                         {% if item.seller.id == request.session.user_id %}
                         <tr>
-                            <td>{{ item.item_name}}</td>
+                            <td>
+                                <a href="/items/{{ item.id }}">{{ item.item_name }}</a>
+                            </td>
                             <td>${{ item.price }}</td>
                             <td>{{ item.condition }}</td>
                             <td>{{ item.category }}</td>
                             <td>{{ item.description }}</td>
                             <td>
-                                <a href="/items/{{ item.id }}">View Listing</a>|
+                                
                                 <a href="/items/{{ item.id }}/edit_item">Edit</a>|
                                 <a href="/items/{{ item.id }}/delete_item">Delete</a>
                             </td>

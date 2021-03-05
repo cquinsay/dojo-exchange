@@ -87,9 +87,9 @@ class Item(models.Model):
 
 class Message(models.Model):
     message = models.TextField()
-    poster = models.ForeignKey(User, related_name="poster", on_delete = models.CASCADE)
-    item_message = models.ManyToManyField(Item, related_name="item_message")
-    sent_message = models.ManyToManyField(User, related_name="sent_message")
+    sender = models.ForeignKey(User, related_name="sent_message", on_delete = models.CASCADE)
+    receiver = models.ForeignKey(User, related_name="received_message", on_delete = models.CASCADE)
+    message_item = models.ManyToManyField(Item, related_name="message_item")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=MessageManager()

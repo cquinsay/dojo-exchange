@@ -36,7 +36,6 @@
 
         <div class="add_message">
             {% if item.seller.id != request.session.user_id %}
-            <section>
                 <form action="/message/{{ item.id }}" method="post">
                     {% csrf_token %}
                     <div class="form-group">
@@ -45,7 +44,6 @@
                     </div>
                     <button class="btn btn-primary">Post</button>
                 </form>
-            </section>
             {% endif %}
         </div>
 

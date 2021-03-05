@@ -102,7 +102,7 @@ def add_item(request):
             image=request.FILES['image'], 
             seller=user
         )
-        
+        request.session['item_id'] = item.id
         return redirect('/account')
     return redirect("/")
 
@@ -178,8 +178,9 @@ def create_message(request, item_id):
             item = Item.objects.get(id=item_id)
             Message.objects.create(
                 message=request.POST['message'],
-                poster=user
+                sender=user,
             )
+            item.message_item.add(sender)
     return redirect(f'/account')
 
 def delete_message(request, message_id):

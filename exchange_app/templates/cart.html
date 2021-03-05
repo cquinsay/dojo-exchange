@@ -22,6 +22,7 @@
         {% if user in item.saved_item.all %}
         <div class="cart-items">
             <h3>{{ item.item_name }}</h3>
+            <img src="{{item.image.url}}" alt="{{item.item_name}}" style="width:200px">
             <p>${{ item.price }}</p>
             <p>{{ item.condition }}</p>
             <p>{{ item.description }}</p>
