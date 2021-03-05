@@ -29,6 +29,7 @@ def register(request):
             )
             request.session['user_id'] = new_user.id
             request.session['user_name']=f"{new_user.first_name}"
+
             return redirect("/dashboard") # never render on a post, always redirect!    
     return redirect('/')
 
@@ -175,12 +176,14 @@ def create_message(request, item_id):
     if request.method == "POST":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
-            item = Item.objects.get(id=item_id)
-            Message.objects.create(
+            item = Item.objects.get(id=request.session['item_id'])
+            seller = User.objects.get(id=request.POST['seller_id'])
+            message = Message.objects.create(
                 message=request.POST['message'],
                 sender=user,
+                seller=receiver,
+
             )
-            item.message_item.add(sender)
     return redirect(f'/account')
 
 def delete_message(request, message_id):
