@@ -42,7 +42,8 @@
                         <label for="message">Message {{ item.seller.first_name }} about item:</label><textarea
                             class="form-control" rows="5" cols="30" name="message"></textarea>
                     </div>
-                    <button class="btn btn-primary">Post</button>
+                    <input type="hidden" value="{{item.seller.id}}" name="seller_id">
+                    <button class="btn btn-primary" type="submit">Post</button>
                 </form>
             {% endif %}
         </div>

@@ -29,11 +29,12 @@
                     </div>
                     <div class="form-group">
                         <label for="new_price">Price:</label><input name="new_price" type="number" class="form-control"
-                        value="{{edit_item.price}}">
+                            value="{{edit_item.price}}">
                     </div>
                     <div class="form-group">
                         <label for="new_condition">Condition:</label>
-                        <select class="form-select form-select-lg mb-3" name="new_condition" value="{{edit_item.condition}}">
+                        <select class="form-select form-select-lg mb-3" name="new_condition"
+                            value="{{edit_item.condition}}">
                             <option value="Brand new">Brand new</option>
                             <option value="Used - like new">Used - like new</option>
                             <option value="Used - good">Used - good</option>
@@ -41,14 +42,20 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="new_category">Category:</label><input name="new_category" type="text" class="form-control" value="{{edit_item.category}}">
+                        <label for="new_category">Category:</label><input name="new_category" type="text"
+                            class="form-control" value="{{edit_item.category}}">
                     </div>
                     <div class="form-group">
-                        <label for="new_description">Description:</label><textarea class="form-control" rows="3" cols="20"
-                            name="new_description">{{edit_item.description}}</textarea>
+                        <label for="new_description">Description:</label><textarea class="form-control" rows="3"
+                            cols="20" name="new_description">{{edit_item.description}}</textarea>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="new_image">Upload Image:</label><input name="new_image" type="file" class="form-control" id="customFile" value="{{item.image.url}}">
+                        <label class="form-label" for="new_image">Upload Image:</label>
+                        {% if edit_item.image %}
+                        <img src="{{edit_item.image.url}}" alt="{{edit_item.description}}">
+                        {% endif %}
+                        <input name="new_image" type="file" class="form-control" id="customFile"
+                            value="{{edit_item.image.url}}">
                     </div>
                     <button class="btn btn-primary">Update</button>
                     <a href="/account" role="button" class="btn btn-warning">Cancel</a>

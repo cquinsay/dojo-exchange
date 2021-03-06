@@ -127,7 +127,10 @@ def update_item(request, item_id):
         my_item.condition=request.POST['new_condition']
         my_item.category=request.POST['new_category']
         my_item.description=request.POST['new_description']
-        my_item.image=request.FILES['new_image']
+        if 'new_image' not in request.FILES:
+            my_item.image = my_item.image
+        else:
+            my_item.image = request.FILES['new_image']
         my_item.save()
 
     return redirect(f'/account')
@@ -176,12 +179,12 @@ def create_message(request, item_id):
     if request.method == "POST":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
-            item = Item.objects.get(id=request.session['item_id'])
-            seller = User.objects.get(id=request.POST['seller_id'])
+            item = Item.objects.get(id=item_id)
+            receiver = User.objects.get(id=request.POST['seller_id'])
             message = Message.objects.create(
                 message=request.POST['message'],
                 sender=user,
-                seller=receiver,
+                receiver=receiver,
 
             )
     return redirect(f'/account')
