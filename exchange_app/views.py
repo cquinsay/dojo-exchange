@@ -80,6 +80,19 @@ def account(request):
             }
             return render(request, 'account.html', context)
     return redirect('/')
+
+def messages(request):
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if user:
+            context = {
+                'user': user[0],
+                'items': Item.objects.all(),
+                'messages': Message.objects.all(),
+                
+            }
+            return render(request, 'messages.html', context)
+    return redirect('/')
     
 
 def add_item(request):
@@ -187,6 +200,7 @@ def create_message(request, item_id):
                 receiver=receiver,
 
             )
+            item.message_item.add(sender)
     return redirect(f'/account')
 
 def delete_message(request, message_id):
