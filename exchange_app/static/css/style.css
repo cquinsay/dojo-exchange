@@ -3,9 +3,7 @@
     padding: 0;
     /* outline: 1px solid red; */
 }
-body{
-    width: 1200px;
-}
+
 .header{
     background-color: rgb(191, 167, 201);
     padding: 5px;

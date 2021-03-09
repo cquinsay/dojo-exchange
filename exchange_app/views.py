@@ -200,7 +200,6 @@ def create_message(request, item_id):
                 receiver=receiver,
 
             )
-            item.message_item.add(sender)
     return redirect(f'/account')
 
 def delete_message(request, message_id):

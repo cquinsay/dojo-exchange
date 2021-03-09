@@ -23,19 +23,6 @@
     </div>
     <div class="container">
         <h2>Hello, {{ request.session.user_name }}!</h2>
-        <div id="posted_messages">
-            <h3>Your Messages:</h3>
-            {% if messages %}
-            {% for message in messages %}
-            <p><b>About: {{item.item_name}}</b></p>
-            <p>{{ message.message }}</p>
-            <h6><b>-{{ message.poster.first_name }} {{ message.poster.last_name }}</b> - {{ message.created_at }}</h6>
-            {% if message.poster.id == request.session.user_id %}
-            <a href="/delete_message/{{ message.id }}">Delete</a>
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-        </div>
         <div class="items_section">
             <div class="add_item">
                 <h4>Add an item to sell!</h4>
