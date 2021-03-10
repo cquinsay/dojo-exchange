@@ -86,10 +86,10 @@ class Item(models.Model):
         return self.item_name
 
 class Message(models.Model):
+    subject = models.CharField(max_length=50)
     message = models.TextField()
     sender = models.ForeignKey(User, related_name="sent_message", on_delete = models.CASCADE)
     receiver = models.ForeignKey(User, related_name="received_message", on_delete = models.CASCADE)
-    message_item = models.ManyToManyField(Item, related_name="message_item")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=MessageManager()
