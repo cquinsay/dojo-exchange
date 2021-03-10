@@ -3,7 +3,6 @@ from datetime import datetime
 import re
 import bcrypt
 
-
 class UserManager(models.Manager):
     def user_validator(self, postdata):
         EMAIL_REGEX=re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
@@ -36,6 +35,16 @@ class UserManager(models.Manager):
                 errors['login_email'] = "Email and password do not match!"
         return errors
 
+class User(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+    confirm_password = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects=UserManager()
+
 class ItemManager(models.Manager):
     def item_validator(self, postdata):
         errors = {}
@@ -53,23 +62,6 @@ class ItemManager(models.Manager):
             errors['new_condition']="You must select a condition!"
         return errors
 
-class MessageManager(models.Manager):
-    def message_validator(self, postdata):
-        errors = {}
-        if len(postdata['message'])<1:
-            errors['message']="You must provide a message to send!!"
-        return errors
-
-class User(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    confirm_password = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    objects=UserManager()
-
 class Item(models.Model):
     item_name = models.CharField(max_length=255)
     price = models.DecimalField(decimal_places=2, max_digits=5)
@@ -84,6 +76,13 @@ class Item(models.Model):
     objects=ItemManager()
     def __str__(self):
         return self.item_name
+
+class MessageManager(models.Manager):
+    def message_validator(self, postdata):
+        errors = {}
+        if len(postdata['message'])<1:
+            errors['message']="You must provide a message to send!!"
+        return errors
 
 class Message(models.Model):
     subject = models.CharField(max_length=50)

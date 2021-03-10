@@ -4,8 +4,8 @@ from .models import *
 import bcrypt
 
 
-def signup(request):
-    return render(request, 'signup.html')
+def index(request):
+    return render(request, 'index.html')
 
 def register(request):
     errors = User.objects.user_validator(request.POST)
@@ -13,7 +13,8 @@ def register(request):
         if User.objects.filter(email = request.POST['email']):
             messages.error(request, 'That email already exists!')
             return redirect('/')
-        if len(errors) > 0:
+        if len(errors):
+            print(errors)
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect('/')
