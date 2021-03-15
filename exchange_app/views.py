@@ -186,7 +186,7 @@ def remove(request, item_id):
 
 def send_message(request):
     sender = User.objects.get(id=request.session['user_id'])
-    recipient = User.objects.get(id=request.POST['recipient'])
+    seller = User.objects.get(id=request.POST['recipient'])
     new_message = Message.objects.create(
         subject = request.POST['subject'],
         message = request.POST['message'],
