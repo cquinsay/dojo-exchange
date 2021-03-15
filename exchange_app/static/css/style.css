@@ -11,25 +11,16 @@
     justify-content: space-between;
     align-items: baseline;
 }
-.items_section{
+/* .items_section{
     display: flex;
     justify-content: space-between;
     
-}
+} */
 .add_item {
     background-color: rgb(191, 167, 201);
     padding: 5px;
 }
-.listing {
-    display: flexbox;
-    
-    
-}
-.item_container {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-}
+
 #posted_messages {
     background-color: rgb(191, 167, 201);
     margin-bottom: 10px;

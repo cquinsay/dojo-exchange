@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
+from .models import User, UserManager, Item, ItemManager, Message, MessageManager
 from django.contrib import messages
-from .models import *
 import bcrypt
 
 
@@ -9,30 +9,28 @@ def index(request):
 
 def register(request):
     errors = User.objects.user_validator(request.POST)
-    if request.method == "POST":
-        if User.objects.filter(email = request.POST['email']):
-            messages.error(request, 'That email already exists!')
-            return redirect('/')
-        if len(errors):
-            print(errors)
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect('/')
-        else:
-            password = request.POST['password']
-            pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode() 
+    if request.method != "POST":
+        return redirect('/')
+    if User.objects.filter(email = request.POST['email']):
+        messages.error(request, 'That email already exists!')
+        return redirect('/')
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/')
+    else:
+        password = request.POST['password']
+        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode() 
 
-            new_user = User.objects.create(
-                first_name=request.POST['first_name'], 
-                last_name=request.POST['last_name'], 
-                email=request.POST['email'], 
-                password=pw_hash
-            )
-            request.session['user_id'] = new_user.id
-            request.session['user_name']=f"{new_user.first_name}"
-
-            return redirect("/dashboard") # never render on a post, always redirect!    
-    return redirect('/')
+        new_user = User.objects.create(
+            first_name=request.POST['first_name'], 
+            last_name=request.POST['last_name'], 
+            email=request.POST['email'], 
+            password=pw_hash
+        )
+        request.session['user_id'] = new_user.id
+        request.session['user_name']=f"{new_user.first_name}"
+        return redirect("/account") # never render on a post, always redirect!    
 
 def signin(request):
     return render(request, "login.html")
@@ -55,14 +53,14 @@ def login(request):
     if len(errors):
         for key, value in errors.items():
             messages.error(request, value)
-        return redirect('/signin')
+        return redirect('/')
     else:
         user = User.objects.get(email=request.POST['login_email'])
         request.session['user_id'] = user.id
         request.session['user_name']=f"{user.first_name}"
         
-        return redirect('/dashboard')
-    return redirect("/signin")
+        return redirect('/account')
+    return redirect("/")
 
 def logout(request):
     request.session.clear()
@@ -146,7 +144,6 @@ def update_item(request, item_id):
         else:
             my_item.image = request.FILES['new_image']
         my_item.save()
-
     return redirect(f'/account')
 
 def delete_item(request, item_id):
@@ -166,7 +163,6 @@ def add_cart(request, item_id):
     user = User.objects.get(id=request.session["user_id"])
     item = Item.objects.get(id=item_id)
     user.saved_item.add(item)
-
     return redirect('/cart')
 
 def cart(request):
@@ -177,7 +173,6 @@ def cart(request):
             context = {
                 'user': user[0],
                 'items': Item.objects.all(),
-
             }
             return render(request, 'cart.html', context)
     return redirect('/')
@@ -189,24 +184,40 @@ def remove(request, item_id):
 
     return redirect('/cart')
 
-def create_message(request, item_id):
-    if request.method == "POST":
-        if 'user_id' in request.session:
-            user = User.objects.get(id=request.session['user_id'])
-            item = Item.objects.get(id=item_id)
-            receiver = User.objects.get(id=request.POST['seller_id'])
-            message = Message.objects.create(
-                message=request.POST['message'],
-                sender=user,
-                receiver=receiver,
+def send_message(request):
+    sender = User.objects.get(id=request.session['user_id'])
+    recipient = User.objects.get(id=request.POST['recipient'])
+    new_message = Message.objects.create(
+        subject = request.POST['subject'],
+        message = request.POST['message'],
+    )
+    user_id=request.session['user_id']
+    return redirect(f'/messages')
 
-            )
+def delete_message_received(request, message_id):
+    trash = Message.objects.get(id=message_id)
+    user = User.objects.get(id=request.session['user_id'])
+    if trash.recipient == user:
+        trash.delete()
+    user_id=request.session['user_id']
     return redirect(f'/account')
 
-def delete_message(request, message_id):
-    message = Message.objects.get(id=message_id)
-    message.delete()
-    return redirect('/account')
+def delete_message_sent(request, message_id):
+    trash = Message.objects.get(id=message_id)
+    user = User.objects.get(id=request.session['user_id'])
+    if trash.sender == user:
+        trash.delete()
+    user_id=request.session['user_id']
+    return redirect(f'/account')
+
+def inbox_message(request):
+    user = User.objects.get(id=request.session['user_id'])
+    context = {
+        'user': user,
+        'messages': Message.objects.all(),
+        'all_users': User.objects.all(),
+    }
+    return render(request, 'new_message.html', context)
 
 def purchase(request, item_id):
     item = Item.objects.get(id=item_id)

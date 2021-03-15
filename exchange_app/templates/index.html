@@ -8,21 +8,22 @@
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>Login & Registration</title>
+    <title>Handy Helper</title>
 </head>
 
 <body>
     <div class="header">
-        <h1>Welcome!</h1>
+        <h1>Welcome to Dojo Exchange! Sign in!</h1>
+        
+    </div>
+    <div class="log_reg">
         {% if messages %}
-        <ul class="messages">
+        <ul class="login_messages">
             {% for message in messages %}
             <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
         {% endif %}
-    </div>
-    <div class="container">
         <section>
             <h3>Register</h3>
             <form action="/register" method="post">

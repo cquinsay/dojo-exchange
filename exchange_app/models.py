@@ -5,18 +5,18 @@ import bcrypt
 
 class UserManager(models.Manager):
     def user_validator(self, postdata):
-        EMAIL_REGEX=re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
+        EMAIL_REGEX=re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         errors = {}
         if len(postdata['first_name'])<1:
-            errors['first_name']="You must provide a first name!"
+            errors['first_name']="You must enter a first name!"
         else:
             if len(postdata['first_name'])<2:
-                errors['first_name']="First name should be more than 2 characters!"
+                errors['first_name']="First name must be longer than 2 characters!"
         if len(postdata['last_name'])<1:
-            errors['last_name']="You must provide a last name!"
+            errors['last_name']="You must enter a last name!"
         else:
             if len(postdata['last_name'])<2:
-                errors['last_name']="Last name should be more than 2 characters!"
+                errors['last_name']="Last name must be longer than 2 characters!"
         if not EMAIL_REGEX.match(postdata['email']): 
             errors['email']="Email must be valid format!"
         if len(postdata['password'])<8:
