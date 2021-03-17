@@ -233,6 +233,15 @@ def messages(request):
     }
     return render(request, 'messages.html', context)
 
+def view_message(request, message_id):
+    user = User.objects.get(id=request.session['user_id'])
+    message = Message.objects.get(id=message_id)
+    context = {
+        'user': user,
+        'message': message,
+    }
+    return render(request, 'view_message.html', context)
+
 def purchase(request, item_id):
     item = Item.objects.get(id=item_id)
     item.delete()

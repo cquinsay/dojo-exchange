@@ -22,6 +22,7 @@ urlpatterns = [
     path('send_message/<int:item_id>', views.send_message),
     path('delete_received_message/<int:message_id>', views.delete_received_message),
     path('delete_sent_message/<int:message_id>', views.delete_sent_message),
+    path('message/<int:message_id>', views.view_message),
     path('purchase/<int:item_id>', views.purchase),
     path('complete', views.complete),
     

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Message</title>
+</head>
+
+<body>
+    <div class="header">
+        <h2>The Dojo Exchange</h2>
+        <nav>
+            <a href="/dashboard">Exchange</a>|
+            <a href="/account">My Account</a>|
+            <a href="/cart">My Cart</a>|
+            <a href="/logout">Log Out</a>
+        </nav>
+    </div>
+    <div class="w-50 ml-auto mr-auto form-background mt-5 rounded shadow-sm p-4">
+        <div class="w-50 ml-auto mr-auto">
+            <h4>Original Message</h4>
+            <p>From: {{message.sender.first_name}} {{message.sender.last_name}}</p>
+            <p>Message: {{message.message}}</p>
+        </div>
+        <div class="w-50 ml-auto mr-auto">
+            <h4>Reply</h4>
+            <form id="reply_message" action="/send" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="Subject">Subject</label>
+                    <input type="text" id="subject" name="subject" class="form-control" value="{{message.subject}}">
+                </div>
+                <div class="mb-3">
+                    <label for="message">Message</label>
+                    <textarea id='message_body' name='message' class="form-control"></textarea>
+                </div>
+                <input type="hidden" id="receiver" name="receiver" value="{{message.sender.id}}">
+                <input type="submit" name="submit" id="submit" value="Reply" class="btn submit">
+                <button type="button" class="btn btn-secondary">Close</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
