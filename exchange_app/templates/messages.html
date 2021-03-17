@@ -24,7 +24,63 @@
             <a href="/logout">Log Out</a>
         </nav>
     </div>
-    <div class="container">
+    <div class="d-flex ml-auto mr-auto">
+        <div class="w-50">
+            <h3 class="text-center">Inbox</h3>
+            <table class="table w-75 ml-auto mr-auto mt-3 table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td>From</td>
+                        <td>Subject</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                    {% if message.receiver.id == user.id %}
+                    <tr>
+                        <td>{{message.sender.first_name}} {{message.sender.last_name}}</td>
+                        <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
+                        <td>{{message.created_at}}</td>
+                        <td><a href="/message/{{message.id}}">Reply</a> | <a
+                                href="/delete_inbox_message/{{message.id}}">Delete</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="w-50">
+            <h3 class="text-center">Sent</h3>
+            <table class="table w-75 ml-auto mr-auto mt-3 table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td>To</td>
+                        <td>Subject</td>
+                        <td>Date</td>
+                        <td>Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                    {% if message.sender.id == user.id %}
+                    <tr>
+                        <td>{{message.receiver.first_name}} {{message.receiver.last_name}}</td>
+                        <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
+                        <td>{{message.created_at}}</td>
+                        <td><a href="/delete_sent_message/{{message.id}}">Delete</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="container">
         <h2>{{ request.session.user_name }}'s Messages</h2>
         <div id="posted_messages">
             <h3>Sent Messages:</h3>
@@ -49,7 +105,7 @@
             {% endfor %}
             {% endif %}
         </div>
-    </div>
+    </div> -->
     
 
 

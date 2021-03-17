@@ -184,40 +184,54 @@ def remove(request, item_id):
 
     return redirect('/cart')
 
-def send_message(request):
-    sender = User.objects.get(id=request.session['user_id'])
-    seller = User.objects.get(id=request.POST['recipient'])
-    new_message = Message.objects.create(
-        subject = request.POST['subject'],
-        message = request.POST['message'],
-    )
-    user_id=request.session['user_id']
+def send_message(request, item_id):
+    if request.method == "POST":
+        if 'user_id' in request.session:
+            user = User.objects.get(id=request.session['user_id'])
+            item = Item.objects.get(id=item_id)
+            receiver = User.objects.get(id=request.POST['seller_id'])
+            Message.objects.create(
+                message=request.POST['message'],
+                subject=request.POST['subject'],
+                sender=user,
+                receiver=receiver
+            )
     return redirect(f'/messages')
+    # sender = User.objects.get(id=request.session['user_id'])
+    # seller = User.objects.get(id=request.POST['receiver'])
+    # new_message = Message.objects.create(
+    #     subject = request.POST['subject'],
+    #     message = request.POST['message'],
+    #     sender = user_id,
+    #     seller = recipient
+    # )
+    # user_id=request.session['user_id']
+    # return redirect(f'/messages')
 
-def delete_message_received(request, message_id):
+def delete_received_message(request, message_id):
     trash = Message.objects.get(id=message_id)
     user = User.objects.get(id=request.session['user_id'])
     if trash.recipient == user:
         trash.delete()
     user_id=request.session['user_id']
-    return redirect(f'/account')
+    return redirect(f'/messages')
 
-def delete_message_sent(request, message_id):
+def delete_sent_message(request, message_id):
     trash = Message.objects.get(id=message_id)
     user = User.objects.get(id=request.session['user_id'])
     if trash.sender == user:
         trash.delete()
     user_id=request.session['user_id']
-    return redirect(f'/account')
+    return redirect(f'/messages')
 
-def inbox_message(request):
+def messages(request):
     user = User.objects.get(id=request.session['user_id'])
     context = {
         'user': user,
         'messages': Message.objects.all(),
         'all_users': User.objects.all(),
     }
-    return render(request, 'new_message.html', context)
+    return render(request, 'messages.html', context)
 
 def purchase(request, item_id):
     item = Item.objects.get(id=item_id)

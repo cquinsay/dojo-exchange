@@ -19,9 +19,9 @@ urlpatterns = [
     path('cart', views.cart),
     path('items/<int:item_id>/remove', views.remove),
     path('messages', views.messages),
-    path('send_message', views.send_message),
-    path('delete_message_received/<int:message_id>', views.delete_message_received),
-    path('delete_message_sent/<int:message_id>', views.delete_message_sent),
+    path('send_message/<int:item_id>', views.send_message),
+    path('delete_received_message/<int:message_id>', views.delete_received_message),
+    path('delete_sent_message/<int:message_id>', views.delete_sent_message),
     path('purchase/<int:item_id>', views.purchase),
     path('complete', views.complete),
     
