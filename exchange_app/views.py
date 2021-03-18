@@ -49,8 +49,9 @@ def dashboard(request):
 
 def login(request):
     errors = User.objects.login_validator(request.POST)
-
-    if len(errors):
+    if request.method != "POST":
+        return redirect('/')
+    if errors:
         for key, value in errors.items():
             messages.error(request, value)
         return redirect('/')
@@ -80,7 +81,7 @@ def account(request):
             return render(request, 'account.html', context)
     return redirect('/')
 
-def messages(request):
+def message(request):
     if 'user_id' in request.session:
         user = User.objects.filter(id=request.session['user_id'])
         if user:
@@ -223,15 +224,7 @@ def delete_sent_message(request, message_id):
         trash.delete()
     user_id=request.session['user_id']
     return redirect(f'/messages')
-
-def messages(request):
-    user = User.objects.get(id=request.session['user_id'])
-    context = {
-        'user': user,
-        'messages': Message.objects.all(),
-        'all_users': User.objects.all(),
-    }
-    return render(request, 'messages.html', context)
+    
 
 def view_message(request, message_id):
     user = User.objects.get(id=request.session['user_id'])
