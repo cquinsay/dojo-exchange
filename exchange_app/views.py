@@ -185,11 +185,12 @@ def remove(request, item_id):
 
     return redirect('/cart')
 
-def send_message(request):
+def send_message(request, item_id):
     if request.method == "POST":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
-            receiver = User.objects.get(id=request.POST['receiver'])
+            item = Item.objects.get(id=item_id)
+            receiver = User.objects.get(id=request.POST['seller_id'])
             Message.objects.create(
                 message=request.POST['message'],
                 subject=request.POST['subject'],
@@ -272,8 +273,6 @@ def complete(request):
         if user:
             context = {
                 'user': user[0],
-                
-
             }
             return render(request, 'complete.html', context)
     return redirect('/')
