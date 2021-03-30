@@ -1,32 +1,31 @@
 * {
     margin:0;
     padding: 0;
-    /* outline: 1px solid red; */
 }
 
-.header{
+/* .header{
     background-color: rgb(191, 167, 201);
     padding: 5px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-}
+} */
 /* .items_section{
     display: flex;
     justify-content: space-between;
     
 } */
-.add_item {
+/* .add_item {
     background-color: rgb(191, 167, 201);
     padding: 5px;
-}
+} */
 
-#posted_messages {
+/* #posted_messages {
     background-color: rgb(191, 167, 201);
     margin-bottom: 10px;
-}
-.cart-container {
+} */
+/* .cart-container {
     display: flex;
     justify-content: space-around;
     margin-top: 10px;
-}
+} */

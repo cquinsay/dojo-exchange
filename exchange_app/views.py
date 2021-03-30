@@ -189,7 +189,7 @@ def send_message(request):
     if request.method == "POST":
         if 'user_id' in request.session:
             user = User.objects.get(id=request.session['user_id'])
-            receiver = User.objects.get(id=request.POST['seller_id'])
+            receiver = User.objects.get(id=request.POST['receiver'])
             Message.objects.create(
                 message=request.POST['message'],
                 subject=request.POST['subject'],
