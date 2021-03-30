@@ -51,7 +51,7 @@
                             {{ item.seller.first_name }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/send_message/{{ item.id }}" method="POST">
+                    <form action="/send_message" method="POST">
                         {% csrf_token %}
                         <div class="modal-body">
                             <div class="mb-3">

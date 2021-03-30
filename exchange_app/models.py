@@ -90,7 +90,6 @@ class Message(models.Model):
     sender = models.ForeignKey(User, related_name="sent_message", on_delete = models.CASCADE)
     # RECEIVER OR SELLER
     receiver = models.ForeignKey(User, related_name="received_message", on_delete = models.CASCADE)
-    item_message = models.ManyToManyField(Item, related_name="item_message")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects=MessageManager()
