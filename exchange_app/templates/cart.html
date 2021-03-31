@@ -13,35 +13,56 @@
 
 <body>
     <div class="header">
-        <h2>The Dojo Exchange</h2>
-        <h1>My Cart</h1>
-        <nav><a href="/dashboard">Exchange</a>|<a href="/account">My Account</a>|<a href="/logout">Log Out</a></nav>
+        <div class="row">
+            <div class='col'>
+                <h2>The Dojo Exchange</h2>
+            </div>
+            <div class='col'>
+                <h1>My Cart</h1>
+            </div>
+            <div class='col'>
+                <nav>
+                    <a href="/dashboard">Exchange</a>|
+                    <a href="/account">My Account</a>|
+                    <a href="/messages">Messages</a>|
+                    <a href="/logout">Log Out</a>
+                </nav>
+            </div>
+        </div>
     </div>
-    <div class="cart-container">
+    <div class="container">
         {% for item in items %}
         {% if user in item.saved_item.all %}
-            {% if item.saved_item.all == 0 %}
-                <h3>Your Cart is Empty</h3>
-            {% endif %}
-        <div class="cart-items">
-            <h3>{{ item.item_name }}</h3>
-            <img src="{{item.image.url}}" alt="{{item.item_name}}" style="width:200px">
-            <p>${{ item.price }}</p>
-            <p>{{ item.condition }}</p>
-            <p>{{ item.description }}</p>
-            <p>Posted on: {{ item.created_at }}</p>
-            <p>Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
-            <a href="/items/{{ item.id }}" role="button" class="btn btn-primary">Listing Info</a>
-            <a href="/items/{{ item.id }}/remove" role="button" class="btn btn-danger">Remove from Cart</a>
-        </div>
-        <div class="total">
-            <h2>Your Total:</h2>
-            <h3>${{ item.price }}</h3>
-            <a href="/purchase/{{ item.id }}" role="button" class="btn btn-warning">Purchase</a>
-        </div>
+        {% if item.saved_item.all == 0 %}
+        <h3>Your Cart is Empty</h3>
         {% endif %}
-        {% endfor %}
-        
+        <div class="row justify-content-between">
+            <div class='col'>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <img src="{{item.image.url}}" alt="{{item.item_name}}" style="width:250px">
+                        <h3 class="card-title">{{ item.item_name }}</h3>
+                        <p class="card-text">${{ item.price }}</p>
+                        <p class="card-text">{{ item.condition }}</p>
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="card-text">Posted on: {{ item.created_at }}</p>
+                        <p class="card-text">Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
+                        <a href="/items/{{ item.id }}" role="button" class="btn btn-primary">Listing Info</a>
+                        <a href="/items/{{ item.id }}/remove" role="button" class="btn btn-danger">Remove from Cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class='col'>
+                <div class="total">
+                    <h2>Your Total:</h2>
+                    <h3>${{ item.price }}</h3>
+                    <a href="/purchase/{{ item.id }}" role="button" class="btn btn-warning">Purchase</a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 
 </body>
