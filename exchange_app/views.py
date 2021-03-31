@@ -237,7 +237,7 @@ def send_message(request):
 def delete_received_message(request, message_id):
     trash = Message.objects.get(id=message_id)
     user = User.objects.get(id=request.session['user_id'])
-    if trash.recipient == user:
+    if trash.receiver == user:
         trash.delete()
     user_id=request.session['user_id']
     return redirect(f'/messages')
