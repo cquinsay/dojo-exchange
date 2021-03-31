@@ -33,9 +33,6 @@
     <div class="container">
         {% for item in items %}
         {% if user in item.saved_item.all %}
-        {% if item.saved_item.all == 0 %}
-        <h3>Your Cart is Empty</h3>
-        {% endif %}
         <div class="row justify-content-between">
             <div class='col'>
                 <div class="card" style="width: 18rem;">
@@ -62,9 +59,7 @@
                 {% endfor %}
             </div>
         </div>
-
     </div>
-
 </body>
 
 </html>
