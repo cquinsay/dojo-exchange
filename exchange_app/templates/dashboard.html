@@ -12,49 +12,38 @@
 </head>
 
 <body>
-    <div class="header">
-        <div class="row justify-content-between">
-            <div class='col-4'>
-                <h2>The Dojo Exchange</h2>
-            </div>
-            <div class='col-4'>
-                <nav>
-                    <a href="/cart">My Cart</a>|
-                    <a href="/account">My Account</a>|
-                    <a href="/messages">Messages</a>|
-                    <a href="/logout">Log Out</a>
-                </nav>
-            </div>
+    <div class="container-fluid">
+        <div class="header">
+            <h2>The Dojo Exchange</h2>
+            <nav>
+                <a href="/cart">My Cart</a>|
+                <a href="/account">My Account</a>|
+                <a href="/messages">Messages</a>|
+                <a href="/logout">Log Out</a>
+            </nav>
         </div>
-        <div class="dashboard_body">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Item Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Condition</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Posted By</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                    {% if item not in saved_item %}
-                    <tr>
-                        <td>
+        <div class="container">
+            <div class="row row-cols-4">
+                {% for item in items %}
+                {% if item not in saved_item %}
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <img src="{{item.image.url}}" alt="{{item.item_name}}" style="width:150px;height:150px">
                             <a href="/items/{{ item.id }}">
-                                <h4>{{ item.item_name }}</h4>
-                            </a><img src="{{item.image.url}}" alt="{{item.item_name}}" style="width:100px;height:100px">
-                        </td>
-                        <td>${{ item.price }}</td>
-                        <td>{{ item.condition }}</td>
-                        <td>{{ item.category }}</td>
-                        <td>{{ item.seller.first_name }} {{ item.seller.last_name }}</td>
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+                                <h4 class="card-title">{{ item.item_name }}</h4>
+                            </a>
+
+                            <p class="card-text">Price: ${{ item.price }}</p>
+                            <p class="card-text">Condition: {{ item.condition }}</p>
+                            <p class="card-text">Category: {{ item.category }}</p>
+                            <p class="card-text">Posted by: {{ item.seller.first_name }} {{ item.seller.last_name }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 
